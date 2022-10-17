@@ -17,14 +17,26 @@
     }
   </style>
 </head>
-<body class="antialiased">
+<body class="antialiased" style="background: url('https://i.pinimg.com/originals/54/f8/13/54f81331a9da88c623b96363fb0a4da1.gif') no-repeat center center fixed; background-size: 100%;">
   <div class="container">
     <!-- main app container -->
     <div class="readersack">
       <div class="container">
         <div class="row">
-          <div class="col-md-6 offset-md-3">
-            <h3>Register</h3>
+          <div class="col-md-6 offset-md-3" style="margin-top: 100px; padding: 30px; border: 0.5px solid grey; border-radius: 4px; background-color: white; opacity: 0.9;">
+            <div style="display: flex;">
+              <div>
+                <h3>Register</h3>
+              </div>
+              
+              <div style="margin-left: 370px;">
+                <a href="/login">
+                  <button style="font-size: 20px; border: none; background-color: white; cursor: pointer;">x</button>
+                </a>
+              </div>
+            </div>
+            
+            &nbsp;
 
             @if ($errors->any())
             <div class="alert alert-danger">
@@ -58,7 +70,7 @@
                 <input type="password" name="confirm_password" class="form-control" />
               </div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary">REGISTER</button>
+                <button type="submit" class="btn" style="background-color: #ec9c9c; color: white;">REGISTER</button>
               </div>
             </form>
           </div>
@@ -69,3 +81,11 @@
 </body>
 
 </html>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400;500;600;700;800&display=swap');
+
+  body{
+    font-family: 'Dosis', sans-serif;
+  }
+</style>

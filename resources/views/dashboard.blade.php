@@ -26,10 +26,18 @@
       flex-direction: column;
 
     }
-  </style>
+</style>
+
+    <!-- <script> // hindi kasali
+        window.auth_user = {!! json_encode($auth_user) !!};
+    </script> -->
 </head>
 
 <body style="justify-content: center; text-align: center; margin-top: 50px;">
+
+    <!-- <div class="container"> // hindi kasali
+        <div :auth_user='@json($auth_user)'></div>
+    </div> -->
 
     <h1 style="text-align: center;"><b>Dashboard</b></h1>
         <!-- Show any success message -->
@@ -45,7 +53,7 @@
     <!-- Check user is logged in -->
     @if(\Auth::check())
 
-    <div style="justify-content: center;">
+    <div style="justify-content: center;"> 
         <h3>Hello, {{\Auth::user()->name}}!</h3> <div>You are logged in as  : {{\Auth::user()->email}} ,  <a href="{{url('logout')}}"> Logout</a></div>  
         
         <img style="width: 750px;" src="https://64.media.tumblr.com/51015ec638a516f7f7d353ca198a5091/tumblr_pdbo9wBAe11xd0gvgo1_1280.gif" alt="">

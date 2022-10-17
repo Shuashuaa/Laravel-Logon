@@ -15,6 +15,7 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->string('obsolete_date');
             $table->integer('document_no');
             $table->string('document_name');
             $table->timestamps();

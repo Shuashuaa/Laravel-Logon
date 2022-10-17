@@ -7,26 +7,35 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Document;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
+
+    function home(){
+
+        return redirect('/');
+    }
+
     function loginView()
     {
         
         if (auth()->user()) // to authenticate if user is on session or not
         {
-            $id = auth()->user()->employee_no;
-            // return $id;
+            // $id = auth()->user()->employee_no;
+            // // return $id;
 
-            $data = User::join('documents', 'documents.document_no', '=', 'users.employee_no')
-                        ->where('users.employee_no' , '=' ,$id)
-                        ->get(['documents.document_name']);
+            // $data = User::join('documents', 'documents.document_no', '=', 'users.employee_no')
+            //             ->where('users.employee_no' , '=' ,$id)
+            //             ->get(['documents.document_name']);
 
-                        return redirect('/');
+            // return redirect('/');
+            return redirect('/');
         }
         else
         {
             return view("login");
+
         }
 
     }
@@ -62,6 +71,37 @@ class AuthController extends Controller
         }
     }
 
+    public function addDocument(Request $request){
+        // return $request;
+        if (auth()->user()) // to authenticate if user is on session or not
+        {    
+
+            $id = auth()->user()->employee_no;
+
+            return DB::table('documents')
+                ->insert([
+                    "document_no" => $id,
+                    "obsolete_date" => $request->obsoleteDate,
+                    "document_name" => $request->documentName,
+                    "created_at" => date('Y-m-d H:i:s'),
+                    "updated_at" => date('Y-m-d H:i:s')
+                ]);
+
+        }    
+    }
+
+    public function editDocument(Request $id){
+        // return $request;
+        return DB::table('documents')->find($id->id);
+    }
+
+    public function delDocument(Request $request, $id){
+        // return $request;
+
+        return DB::table('documents')->where('id', $id)->delete();
+
+    }
+
     function doRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -72,6 +112,7 @@ class AuthController extends Controller
             'confirm_password' => 'required|same:password',
 
         ]); // create the validations
+
         if ($validator->fails())   //check all validations are fine, if not then redirect and show error messages
         {
 
@@ -101,14 +142,24 @@ class AuthController extends Controller
 
             $data = User::join('documents', 'documents.document_no', '=', 'users.employee_no')
                         ->where('users.employee_no' , '=' ,$id)
-                        ->get(['documents.document_name']);
+                        ->get(['documents.*']);
 
-                        return view("dashboard", compact('data'));
+                        // return view("layouts.app", ['auth_user' => Auth::user()->name ], compact('data'));
+
+                        // return view('layouts.app')->with('auth_user',  auth()->user());
+                        return view('layouts.app')
+                        ->with('auth_user', auth()->user()->name)
+                        ->with('auth_code', auth()->user()->employee_no)
+                        ->with('auth_documents', $data);
+
+                        // return view('index', [ 'auth_user' => Auth::user() ]);
         }
         else
         {
             // return redirect(route('login'));
-                        return view("dashboard");
+                        // return view("dashboard");
+                        // return view("login");     
+                        return redirect('/login');   
         }
 
         // return $data;
@@ -151,6 +202,7 @@ class AuthController extends Controller
     function logout()
     {
         \Auth::logout();
-        return redirect("login")->with('success', 'Logout successfully');;
+        return redirect("login")->with('success', 'Logout successfully');
     }
+
 }
